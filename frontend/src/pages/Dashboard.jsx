@@ -1,36 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
+import Chatbot from '../components/Chatbot'
+import './Dashboard.css'
 
-export default function Dashboard() {
-  const [health, setHealth] = useState({ checking: true, ok: false });
+function Dashboard() {
+  const [mentorReady, setMentorReady] = useState(false)
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/health')
-      .then((r) => r.json())
-      .then((data) => {
-        if (data && data.success) setHealth({ checking: false, ok: true });
-        else setHealth({ checking: false, ok: false });
-      })
-      .catch(() => setHealth({ checking: false, ok: false }));
-  }, []);
+    // Initialize mentor
+    setMentorReady(true)
+  }, [])
 
   return (
     <main className="dashboard">
-      <h1>AI Career Mentor</h1>
-
-      <section className="status">
-        {health.checking ? (
-          <p>Checking backend...</p>
-        ) : health.ok ? (
-          <p style={{ color: 'green' }}>Backend connected ✓</p>
-        ) : (
-          <p style={{ color: 'crimson' }}>Backend disconnected ✕</p>
-        )}
-      </section>
-
-      <section className="placeholder">
-        <h2>Welcome</h2>
-        <p>This is the Dashboard placeholder. Replace with real components as needed.</p>
-      </section>
+      {mentorReady ? (
+        <Chatbot />
+      ) : (
+        <div style={{ padding: '2rem', textAlign: 'center' }}>
+          <p>Loading mentor...</p>
+        </div>
+      )}
     </main>
-  );
+  )
 }
+
+export default Dashboard
