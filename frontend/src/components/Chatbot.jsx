@@ -41,7 +41,7 @@ function Chatbot() {
       const response = await fetch('http://localhost:5000/api/chatbot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: input })
+        body: JSON.stringify({ message: input })
       })
 
       const data = await response.json()
@@ -49,7 +49,7 @@ function Chatbot() {
       if (data.success) {
         const botMessage = {
           id: userMessage.id + 1,
-          text: data.response,
+          text: data.reply,
           sender: 'bot'
         }
         setMessages(prev => [...prev, botMessage])
